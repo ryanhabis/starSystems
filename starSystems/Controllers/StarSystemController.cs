@@ -10,7 +10,7 @@ namespace starSystems.Controllers
         //}
 
         // 
-        // GET: /HelloWorld/
+        // GET: /starSystem/
         public string Index()
         {
             return "This is my default action...";
