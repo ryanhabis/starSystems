@@ -1,5 +1,6 @@
-﻿@model IEnumerable<starSystems.Models.Planets>
-
+﻿@model starSystems.Models.PlanetsStarSystemViewModel
+@* @model IEnumerable<starSystems.Models.Planets>
+ *@
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,8 +10,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<form asp-controller="Planets" asp-action="Index">
+<form asp-controller="Planets" asp-action="Index" method="get">
     <p>
+        <select asp-for="PlanetStarSystem" asp-items="Model.starSystem">
+            <option value="">All</option>
+        </select>
+
         Title: <input type="text" name="SearchString" />
         <input type="submit" value="Filter" />
     </p>
@@ -20,22 +25,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Planets![0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Planets![0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StarId)
+                @Html.DisplayNameFor(model => model.Planets![0].StarId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StarSystem)
+                @Html.DisplayNameFor(model => model.Planets![0].StarSystem)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Planets!) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

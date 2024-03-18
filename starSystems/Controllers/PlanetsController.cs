@@ -19,31 +19,47 @@ namespace starSystems.Controllers
             _context = context;
         }
 
-        // GET: Planets
-        public async Task<IActionResult> Index(string searchString)
+        // GET: planet
+        public async Task<IActionResult> Index(string planetStarSystem, string searchString)
         {
             if (_context.Planets == null)
             {
-                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+                return Problem("Entity set 'PlanetContext.Planet'  is null.");
             }
 
-            var movies = from m in _context.Planets
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Planets
+                                            orderby m.StarSystem
+                                            select m.StarSystem;
+
+            var planet = from m in _context.Planets
                          select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                movies = movies.Where(s => s.Title!.Contains(searchString));
+                planet = planet.Where(s => s.Title!.Contains(searchString));
             }
 
-            return View(await movies.ToListAsync());
+            if (!string.IsNullOrEmpty(planetStarSystem))
+            {
+                planet = planet.Where(x => x.StarSystem == planetStarSystem);
+            }
+
+            var PlanetsStarSystemVM = new PlanetsStarSystemViewModel
+            {
+                starSystem = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Planets = await planet.ToListAsync()
+            };
+
+            return View(PlanetsStarSystemVM);
         }
 
         //public async Task<IActionResult> Index()
         //{
-        //    return View(await _context.Planets.ToListAsync());
+        //    return View(await _context.planet.ToListAsync());
         //}
 
-        // GET: Planets/Details/5
+        // GET: planet/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -61,13 +77,13 @@ namespace starSystems.Controllers
             return View(planets);
         }
 
-        // GET: Planets/Create
+        // GET: planet/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Planets/Create
+        // POST: planet/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -83,7 +99,7 @@ namespace starSystems.Controllers
             return View(planets);
         }
 
-        // GET: Planets/Edit/5
+        // GET: planet/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,7 +115,7 @@ namespace starSystems.Controllers
             return View(planets);
         }
 
-        // POST: Planets/Edit/5
+        // POST: planet/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -134,7 +150,7 @@ namespace starSystems.Controllers
             return View(planets);
         }
 
-        // GET: Planets/Delete/5
+        // GET: planet/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,7 +168,7 @@ namespace starSystems.Controllers
             return View(planets);
         }
 
-        // POST: Planets/Delete/5
+        // POST: planet/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
