@@ -7,9 +7,9 @@ using starSystems.Models;
 
 namespace starSystems.Data
 {
-    public class starSystemsContext : DbContext
+    public class PlanetsContext : DbContext
     {
-        public starSystemsContext (DbContextOptions<starSystemsContext> options)
+        public PlanetsContext (DbContextOptions<PlanetsContext> options)
             : base(options)
         {
         }

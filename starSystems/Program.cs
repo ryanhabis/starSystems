@@ -1,14 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using starSystems.Data;
+using starSystems.Models;
+
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<starSystemsContext>(options =>
+builder.Services.AddDbContext<PlanetsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("starSystemsContext") ?? throw new InvalidOperationException("Connection string 'starSystemsContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

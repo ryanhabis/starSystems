@@ -9,7 +9,7 @@ using starSystems.Data;
 
 namespace starSystems.Migrations
 {
-    [DbContext(typeof(starSystemsContext))]
+    [DbContext(typeof(PlanetsContext))]
     partial class starSystemsContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

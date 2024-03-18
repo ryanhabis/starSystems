@@ -12,18 +12,36 @@ namespace starSystems.Controllers
 {
     public class PlanetsController : Controller
     {
-        private readonly starSystemsContext _context;
+        private readonly PlanetsContext _context;
 
-        public PlanetsController(starSystemsContext context)
+        public PlanetsController(PlanetsContext context)
         {
             _context = context;
         }
 
         // GET: Planets
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Planets.ToListAsync());
+            if (_context.Planets == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            }
+
+            var movies = from m in _context.Planets
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.Contains(searchString));
+            }
+
+            return View(await movies.ToListAsync());
         }
+
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Planets.ToListAsync());
+        //}
 
         // GET: Planets/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -10,7 +10,7 @@ using starSystems.Data;
 
 namespace starSystems.Migrations
 {
-    [DbContext(typeof(starSystemsContext))]
+    [DbContext(typeof(PlanetsContext))]
     [Migration("20240318161105_InitialCreate")]
     partial class InitialCreate
     {
