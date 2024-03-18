@@ -17,9 +17,11 @@ namespace starSystems.Controllers
         }
         // 
         // GET: /HelloWorld/Welcome/ 
-        public string Welcome()
+        public IActionResult Welcome(String name, int numTimes = 1)
         {
-            return "This is the Welcome action method...";
+            ViewData["Message"] = "Hello " + name;
+            ViewData["NumTimes"] = numTimes;
+            return View();
         }
     }
 }
