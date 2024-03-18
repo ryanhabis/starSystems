@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using starSystems.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<starSystemsContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("starSystemsContext") ?? throw new InvalidOperationException("Connection string 'starSystemsContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
