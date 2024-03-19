@@ -168,6 +168,33 @@ namespace starSystems.Models
                 context.SaveChanges();
 
             }
+
+            using (var context = new StarSystemsContext(
+                serviceProvider.GetRequiredService<
+                    DbContextOptions<StarSystemsContext>>()))
+            {
+                // Look for any StarSystems.
+                if (context.Stars.Any())
+                {
+                    return;   // DB has been seeded
+                }
+                context.Stars.AddRange(
+                new StarSystems
+                {
+                    StarId = 1,
+                    StarName = "Solar",
+                    Description = "Our solar system is made up of a star, eight planets, and countless smaller bodies such as dwarf planets, asteroids, and comets. Our solar system orbits the center of the Milky Way galaxy at about 515,000 mph (828,000 kph). We're in one of the galaxy's four spiral arms.",
+                },
+                new StarSystems
+                {
+                    StarId = 2,
+                    StarName = "TRAPPIST-1 system",
+                    Description = "Seven terrestrial planets orbit this star; several are super-Earths. JWST has just begun collecting data on these worlds, with recent measurements indicating that the innermost planet, TRAPPIST-1 b, does not have an atmosphere",
+                }
+                );
+                context.SaveChanges();
+
+            }
         }
     }
 }
