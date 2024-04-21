@@ -13,7 +13,7 @@ namespace starSystems.Data
             : base(options)
         {
         }
-
+        public DbSet<starSystems.Models.StarSystems> Stars { get; set; }
         public DbSet<starSystems.Models.Planets> Planets { get; set; } = default!;
     }
 }

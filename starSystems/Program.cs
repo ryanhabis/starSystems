@@ -6,7 +6,7 @@ using starSystems.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PlanetsContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("starSystemsContext") ?? throw new InvalidOperationException("Connection string 'starSystemsContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PlanetsContext") ?? throw new InvalidOperationException("Connection string 'starSystemsContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
